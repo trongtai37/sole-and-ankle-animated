@@ -114,16 +114,56 @@ const Filler = styled.div`
   }
 `;
 
-const NavLink = styled.a`
+const Wrapper = styled.a`
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+
   font-size: 1.125rem;
   text-transform: uppercase;
-  text-decoration: none;
   color: var(--color-gray-900);
-  font-weight: ${WEIGHTS.medium};
 
   &:first-of-type {
     color: var(--color-secondary);
   }
 `;
+
+const Text = styled.span`
+  display: inline-block;
+
+  will-change: transform;
+  transition: transform 500ms;
+  transform: translateY(var(--translate-from));
+
+  ${Wrapper}:hover & {
+    transform: translateY(var(--translate-to));
+  }
+`;
+
+const ThinText = styled(Text)`
+  font-weight: ${WEIGHTS.medium};
+
+  --translate-from: 0%;
+  --translate-to: -100%;
+`;
+
+const BoldText = styled(Text)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: ${WEIGHTS.bold};
+
+  --translate-from: 100%;
+  --translate-to: 0%;
+`;
+
+const NavLink = ({ children, ...remainProps }) => {
+  return (
+    <Wrapper {...remainProps}>
+      <ThinText>{children}</ThinText>
+      <BoldText>{children}</BoldText>
+    </Wrapper>
+  );
+};
 
 export default Header;
